@@ -123,6 +123,7 @@ public class MainMenu {
         logger.info("User " + user.getUserName() + " closed the application");
         try {
             concrud.reloadContacts();
+            userCRUD.reloadUsers();
         } catch (IOException e) {
             e.printStackTrace();
         }

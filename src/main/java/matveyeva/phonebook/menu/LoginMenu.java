@@ -4,6 +4,7 @@ import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class LoginMenu {
@@ -11,17 +12,15 @@ public class LoginMenu {
     private final UserCRUD userCRUD = new UserCRUD();
     private static Logger logger;
 
-    public static void main(String[] args) throws Exception {
+    public LoginMenu(){
         logger = Logger.getLogger(LoginMenu.class);
-        logger.info("Application started");
-        LoginMenu app = new LoginMenu();
-        app.start();
+        logger.info("LoginMenu opened");
     }
 
     public void start(){
         boolean check = false;
         while(!check) {
-            System.out.println("login | registration");
+            System.out.println("login | registration | exit");
             switch (scanner.nextInt()) {
                 case 1:
                     login();
@@ -31,7 +30,21 @@ public class LoginMenu {
                     registration();
                     check = true;
                     break;
+                case 3:
+                    exit();
+                    check = true;
+                    break;
             }
+        }
+    }
+
+    private void exit() {
+        System.out.println("Exit");
+        logger.info("Application closed");
+        try {
+            userCRUD.reloadUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

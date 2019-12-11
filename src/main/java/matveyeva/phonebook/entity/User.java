@@ -2,6 +2,8 @@ package matveyeva.phonebook.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
@@ -44,10 +46,12 @@ public class User implements Serializable {
     }
 
     public boolean isUserValid() {
-        return true;
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]{3,15}$");
+        Matcher matcherN = pattern.matcher(userName);
+        Matcher matcherP = pattern.matcher(password);
+
+        return matcherN.matches() && matcherP.matches();
     }
 
-    public boolean isAdmin(){
-        return this.userName.equals("admin") && this.password.equals("admin");
-    }
+
 }
