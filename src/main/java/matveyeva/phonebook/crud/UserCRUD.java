@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class UserCRUD {
 
-    private Set<User> users;
+    private static Set<User> users = new HashSet<User>();
     private static Logger logger;
     private ContactCRUD contactCRUD;
 
@@ -30,6 +30,7 @@ public class UserCRUD {
             try {
                 if(users.add(user)){
                     logger.info("New user " + user.getUserName() + " created");
+
                     return user;
                 }
             } catch (Exception e) {
@@ -86,7 +87,6 @@ public class UserCRUD {
     }
 
     private void loadUsers() throws Exception {
-        users = new HashSet<User>();
         FileInputStream fileInputStream = new FileInputStream("users.ser");
         while (fileInputStream.available() > 0) {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

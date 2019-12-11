@@ -42,6 +42,7 @@ public class LoginMenu {
         if(namePass.equals("admin,admin")){
             logger.info("Admin logged in");
             AdminMenu adminMenu = new AdminMenu();
+
             adminMenu.showMenu();
         }else if((user = userCRUD.findOne(namePass))!= null){
             logger.info("User " + user.getUserName() + " logged in");
