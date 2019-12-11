@@ -1,0 +1,197 @@
+2019-12-11 13:55 INFO  - Application started
+2019-12-11 13:55 INFO  - MainMenu opened
+2019-12-11 13:56 INFO  - Application started
+2019-12-11 13:56 INFO  - MainMenu opened
+2019-12-11 13:57 INFO  - Application started
+2019-12-11 13:58 INFO  - MainMenu opened
+2019-12-11 14:06 INFO  - Application started
+2019-12-11 14:06 INFO  - User annalogged in
+2019-12-11 14:06 INFO  - MainMenu opened
+2019-12-11 14:06 INFO  - User anna read all contacts
+2019-12-11 14:06 INFO  - User anna created new contact
+2019-12-11 14:06 INFO  - User anna read all contacts
+2019-12-11 14:07 INFO  - User anna logged off
+2019-12-11 14:07 INFO  - User dimalogged in
+2019-12-11 14:07 INFO  - MainMenu opened
+2019-12-11 14:07 INFO  - User dima read all contacts
+2019-12-11 14:52 INFO  - Application started
+2019-12-11 14:54 INFO  - Application started
+2019-12-11 14:54 INFO  - New user anna created
+2019-12-11 14:54 INFO  - User anna created and logged in
+2019-12-11 14:54 INFO  - MainMenu opened
+2019-12-11 14:54 INFO  - User anna created new contact
+2019-12-11 14:54 INFO  - User anna created new contact
+2019-12-11 14:54 INFO  - User anna read all contacts
+2019-12-11 14:54 INFO  - User anna logged off
+2019-12-11 14:55 INFO  - New user dima created
+2019-12-11 14:55 INFO  - User dima created and logged in
+2019-12-11 14:55 INFO  - MainMenu opened
+2019-12-11 14:55 INFO  - User dima created new contact
+2019-12-11 14:56 INFO  - User dima created new contact
+2019-12-11 14:56 INFO  - User dima logged off
+2019-12-11 14:56 INFO  - Application started
+2019-12-11 14:57 INFO  - New user anna created
+2019-12-11 14:57 INFO  - User anna created and logged in
+2019-12-11 14:57 INFO  - MainMenu opened
+2019-12-11 14:57 INFO  - User anna created new contact
+2019-12-11 14:57 INFO  - User anna created new contact
+2019-12-11 14:57 INFO  - User anna read all contacts
+2019-12-11 14:58 INFO  - User anna logged off
+2019-12-11 15:00 INFO  - Application started
+2019-12-11 15:02 INFO  - Application started
+2019-12-11 15:02 INFO  - Admin logged in
+2019-12-11 15:02 INFO  - AdminMenu opened
+2019-12-11 15:03 INFO  - New user anna created
+2019-12-11 15:03 INFO  - Admin created new useranna
+2019-12-11 15:03 INFO  - Admin read all users
+2019-12-11 15:04 INFO  - Admin closed the application
+2019-12-11 15:05 INFO  - Application started
+2019-12-11 15:05 INFO  - Admin logged in
+2019-12-11 15:05 INFO  - AdminMenu opened
+2019-12-11 15:05 INFO  - New user anna created
+2019-12-11 15:05 INFO  - Admin created new useranna
+2019-12-11 15:05 INFO  - Admin read all users
+2019-12-11 15:05 INFO  - Admin read all users
+2019-12-11 15:05 INFO  - Admin logged off
+2019-12-11 15:05 INFO  - User anna logged in
+2019-12-11 15:05 INFO  - MainMenu opened
+2019-12-11 15:06 INFO  - User anna created new contact
+2019-12-11 15:06 INFO  - User anna read all contacts
+2019-12-11 15:06 INFO  - User anna logged off
+2019-12-11 15:06 INFO  - User anna logged in
+2019-12-11 15:06 INFO  - MainMenu opened
+2019-12-11 15:06 INFO  - User anna read all contacts
+2019-12-11 15:06 INFO  - User anna logged off
+2019-12-11 15:06 INFO  - Admin logged in
+2019-12-11 15:06 INFO  - AdminMenu opened
+2019-12-11 15:06 INFO  - Admin read all users
+2019-12-11 15:11 INFO  - Application started
+2019-12-11 15:11 INFO  - Admin logged in
+2019-12-11 15:11 INFO  - AdminMenu opened
+2019-12-11 15:11 INFO  - Admin read all users
+2019-12-11 15:17 INFO  - Application started
+2019-12-11 15:17 INFO  - User anna logged in
+2019-12-11 15:17 INFO  - MainMenu opened
+2019-12-11 15:17 INFO  - User anna read all contacts
+2019-12-11 15:17 INFO  - User anna logged off
+2019-12-11 15:17 INFO  - Admin logged in
+2019-12-11 15:17 INFO  - AdminMenu opened
+2019-12-11 15:17 INFO  - New user dima created
+2019-12-11 15:17 INFO  - Admin created new userdima
+2019-12-11 15:18 INFO  - Admin read all users
+2019-12-11 15:18 INFO  - Admin logged off
+2019-12-11 15:18 INFO  - User dima logged in
+2019-12-11 15:18 INFO  - MainMenu opened
+2019-12-11 15:18 INFO  - User dima created new contact
+2019-12-11 15:18 INFO  - User dima logged off
+2019-12-11 15:18 INFO  - Admin logged in
+2019-12-11 15:18 INFO  - AdminMenu opened
+2019-12-11 15:18 INFO  - Admin read all users
+2019-12-11 15:18 INFO  - Admin deleted user dima
+2019-12-11 15:18 INFO  - Admin read all users
+2019-12-11 15:18 INFO  - Admin logged off
+2019-12-11 15:18 INFO  - User dima logged in
+2019-12-11 15:18 INFO  - MainMenu opened
+2019-12-11 15:19 INFO  - User dima read all contacts
+2019-12-11 15:20 INFO  - Application started
+2019-12-11 15:20 INFO  - Admin logged in
+2019-12-11 15:20 INFO  - AdminMenu opened
+2019-12-11 15:20 INFO  - Admin read all users
+2019-12-11 15:20 INFO  - Admin logged off
+2019-12-11 15:20 INFO  - User dima logged in
+2019-12-11 15:20 INFO  - MainMenu opened
+2019-12-11 15:21 INFO  - Application started
+2019-12-11 15:22 INFO  - User anna logged in
+2019-12-11 15:22 INFO  - MainMenu opened
+2019-12-11 15:24 INFO  - Application started
+2019-12-11 15:24 INFO  - User anna logged in
+2019-12-11 15:24 INFO  - MainMenu opened
+2019-12-11 15:27 INFO  - Application started
+2019-12-11 15:27 INFO  - Application started
+2019-12-11 15:29 INFO  - Application started
+2019-12-11 15:29 INFO  - User anna logged in
+2019-12-11 15:29 INFO  - MainMenu opened
+2019-12-11 15:29 INFO  - User anna logged off
+2019-12-11 15:29 INFO  - Application started
+2019-12-11 15:29 INFO  - New user dima created
+2019-12-11 15:29 INFO  - User dima created and logged in
+2019-12-11 15:29 INFO  - MainMenu opened
+2019-12-11 15:30 INFO  - User dima created new contact
+2019-12-11 15:30 INFO  - User dima logged off
+2019-12-11 15:30 INFO  - Admin logged in
+2019-12-11 15:30 INFO  - AdminMenu opened
+2019-12-11 15:30 INFO  - Admin read all users
+2019-12-11 15:32 INFO  - Application started
+2019-12-11 15:32 INFO  - User anna logged in
+2019-12-11 15:32 INFO  - MainMenu opened
+2019-12-11 15:32 INFO  - User anna read all contacts
+2019-12-11 15:32 INFO  - User anna logged off
+2019-12-11 15:32 INFO  - Admin logged in
+2019-12-11 15:32 INFO  - AdminMenu opened
+2019-12-11 15:32 INFO  - New user dima created
+2019-12-11 15:32 INFO  - Admin created new userdima
+2019-12-11 15:32 INFO  - Admin logged off
+2019-12-11 15:32 INFO  - User dima logged in
+2019-12-11 15:32 INFO  - MainMenu opened
+2019-12-11 15:33 INFO  - User dima read all contacts
+2019-12-11 15:33 INFO  - User dima logged off
+2019-12-11 15:33 INFO  - User dima logged in
+2019-12-11 15:33 INFO  - MainMenu opened
+2019-12-11 15:33 INFO  - User dima logged off
+2019-12-11 15:33 INFO  - Admin logged in
+2019-12-11 15:33 INFO  - AdminMenu opened
+2019-12-11 15:33 INFO  - Admin read all users
+2019-12-11 15:34 INFO  - Admin deleted user anna
+2019-12-11 15:34 INFO  - Admin logged off
+2019-12-11 15:34 INFO  - Admin logged in
+2019-12-11 15:34 INFO  - AdminMenu opened
+2019-12-11 15:34 INFO  - Admin read all users
+2019-12-11 15:34 INFO  - Admin closed the application
+2019-12-11 15:40 INFO  - Application started
+2019-12-11 15:40 INFO  - Admin logged in
+2019-12-11 15:40 INFO  - AdminMenu opened
+2019-12-11 15:40 INFO  - New user anna created
+2019-12-11 15:40 INFO  - Admin created new useranna
+2019-12-11 15:40 INFO  - New user dima created
+2019-12-11 15:40 INFO  - Admin created new userdima
+2019-12-11 15:40 INFO  - Admin logged off
+2019-12-11 15:40 INFO  - User dima logged in
+2019-12-11 15:40 INFO  - MainMenu opened
+2019-12-11 15:40 INFO  - User dima created new contact
+2019-12-11 15:41 INFO  - User dima logged off
+2019-12-11 15:41 INFO  - Admin logged in
+2019-12-11 15:41 INFO  - AdminMenu opened
+2019-12-11 15:41 INFO  - Admin read all users
+2019-12-11 15:41 INFO  - Admin deleted user dima
+2019-12-11 15:42 INFO  - Admin logged off
+2019-12-11 15:42 INFO  - User anna logged in
+2019-12-11 15:42 INFO  - MainMenu opened
+2019-12-11 15:42 INFO  - User anna closed the application
+2019-12-11 15:49 INFO  - Application started
+2019-12-11 15:49 INFO  - Admin logged in
+2019-12-11 15:49 INFO  - AdminMenu opened
+2019-12-11 15:49 INFO  - New user anna created
+2019-12-11 15:49 INFO  - Admin created new useranna
+2019-12-11 15:49 INFO  - New user dima created
+2019-12-11 15:49 INFO  - Admin created new userdima
+2019-12-11 15:49 INFO  - Admin read all users
+2019-12-11 15:49 INFO  - Admin logged off
+2019-12-11 15:49 INFO  - User anna logged in
+2019-12-11 15:49 INFO  - MainMenu opened
+2019-12-11 15:50 INFO  - User anna created new contact
+2019-12-11 15:50 INFO  - User anna logged off
+2019-12-11 15:50 INFO  - User dima logged in
+2019-12-11 15:50 INFO  - MainMenu opened
+2019-12-11 15:50 INFO  - User dima created new contact
+2019-12-11 15:51 INFO  - User dima read all contacts
+2019-12-11 15:51 INFO  - User dima logged off
+2019-12-11 15:51 INFO  - Admin logged in
+2019-12-11 15:51 INFO  - AdminMenu opened
+2019-12-11 15:51 INFO  - Admin read all users
+2019-12-11 15:51 INFO  - Admin deleted user anna
+2019-12-11 15:51 INFO  - Admin read all users
+2019-12-11 15:51 INFO  - Admin logged off
+2019-12-11 15:52 INFO  - User dima logged in
+2019-12-11 15:52 INFO  - MainMenu opened
+2019-12-11 15:52 INFO  - User dima read all contacts
+2019-12-11 15:52 INFO  - User dima closed the application

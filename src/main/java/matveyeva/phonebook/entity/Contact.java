@@ -1,21 +1,24 @@
-package matveyeva.phonebook;
+package matveyeva.phonebook.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Objects;
 
-public class Contact implements Serializable {
+public class Contact implements Serializable{
+
+    private static final long serialVersionUID = 4L;
 
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private LocalDate creationDate;
+    private User user;
 
-    public Contact(String firstName, String lastName, String phoneNumber) {
+    public Contact(String firstName, String lastName, String phoneNumber,User user) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.user = user;
         this.creationDate = LocalDate.now();
     }
 
@@ -50,15 +53,40 @@ public class Contact implements Serializable {
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
-    public boolean isContactValid(){
-        return true;
+
+    public User getUser() {
+        return user;
     }
-    //check phoneNumber
-    public boolean isPhoneValid(){
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    //check
+    public boolean isContactValid(){
         return true;
     }
 
     public String toString(){
         return this.firstName + " " + this.lastName + " " +this.phoneNumber + " " + this.creationDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(phoneNumber, contact.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNumber);
+    }
+    public boolean isTheSame(Contact contact){
+        if(this.getFirstName().equals(contact.getFirstName()) && this.getLastName().equals(contact.getLastName()) && this.getPhoneNumber().equals(contact.getPhoneNumber())){
+            return true;
+        }else return false;
+    }
+
 }
