@@ -1,6 +1,7 @@
 package matveyeva.phonebook.crud;
 
 import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.exception.InvalidUserException;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -24,20 +25,31 @@ public class UserCRUD {
     }
 
     public User createUser(String str){
-        User user = split(str);
-
-        if(user != null && user.isUserValid()){
-            try {
-                if(users.add(user)){
-                    logger.info("New user " + user.getUserName() + " created");
-
-                    return user;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try{
+            User user = split(str);
+            users.add(user);
+            logger.info("New user " + user.getUserName() + " created");
+            return user;
+        }catch (InvalidUserException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }catch (IllegalArgumentException iex){
+            System.out.println("User exists");
+            return null;
         }
-        return null;
+
+//        if(user != null && user.isUserValid()){
+//            try {
+//                if(users.add(user)){
+//                    logger.info("New user " + user.getUserName() + " created");
+//
+//                    return user;
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return null;
     }
 
     public void delete(User user) throws IOException {
@@ -64,13 +76,15 @@ public class UserCRUD {
     }
 
     public User update(String newUser, User oldUser){
-        User user = split(newUser);
-        if(user.isUserValid()){
+        try{
+            User user = split(newUser);
             users.remove(oldUser);
             users.add(user);
             return user;
+        }catch(InvalidUserException ex){
+            System.out.println(ex.getMessage());
+            return null;
         }
-        return null;
     }
 
     public Set<User> findAll(){
@@ -82,6 +96,7 @@ public class UserCRUD {
             if(user.getUserName().contains(username)){
                 return user;
             }
+
         }
         return null;
     }
@@ -104,14 +119,15 @@ public class UserCRUD {
 
     }
 
-    private User split(String str){
+    private User split(String str) throws InvalidUserException {
         String[] userstr = str.split(",");
         if(userstr.length == 2){
             User user = new User(userstr[0], userstr[1]);
+            user.isUserValid();
             return user;
-        }
-        return null;
+        }else throw new InvalidUserException("Incorrect user data");
     }
+
     private void writeUserToFile(User user) throws IOException{
         FileOutputStream outputStream = new FileOutputStream("users.ser",true);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -121,11 +137,15 @@ public class UserCRUD {
     }
 
     public User findOne(String namePass) {
-        User user = split(namePass);
-        if(user != null && user.isUserValid() && users.contains(user)){
-            return user;
+        try{
+            User user = split(namePass);
+            if(users.contains(user)){
+                return user;
+            }else throw new InvalidUserException("User not exists");
+        }catch (InvalidUserException ex){
+            System.out.println(ex.getMessage());
+            return null;
         }
-        return null;
     }
 }
 

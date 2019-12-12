@@ -112,8 +112,9 @@ public class MainMenu {
                 case 2:
                     break;
             }
-        }else
-            System.out.println("Contact not found\n");
+        }
+//        else
+//            System.out.println("Contact not found\n");
 
         showMenu();
     }
@@ -137,7 +138,8 @@ public class MainMenu {
             if((con = concrud.create(str))!= null){
                 logger.info("User " + user.getUserName() + " created new contact");
                 System.out.println("Created: " + con);
-            }else System.out.println("Contact exists or contact is not valid");
+            }
+//            else System.out.println("Contact exists or contact is not valid");
         }
         showMenu();
     }
@@ -165,9 +167,10 @@ public class MainMenu {
             if((contact = concrud.update(newContact,contact)) != null){
                 logger.info("User " + user.getUserName() + " updated contact " + contact);
                 System.out.println("Updated: " + contact);
-            } else System.out.println("Contact is not valid");
-        }else
-            System.out.println("Contact not found\n");
+            }
+//            else System.out.println("Contact is not valid");
+        }
+//        else System.out.println("Contact not found\n");
 
         showMenu();
     }
@@ -181,8 +184,8 @@ public class MainMenu {
             if((contact = concrud.findByNumber(phone)) != null){
                 logger.info("User " + user.getUserName() + " read contact " + contact);
                 System.out.println(contact);
-            }else
-                System.out.printf("Contact not found\n");
+            }
+//            else System.out.printf("Contact not found\n");
         }
         showMenu();
     }

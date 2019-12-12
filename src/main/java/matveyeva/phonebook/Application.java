@@ -2,10 +2,16 @@ package matveyeva.phonebook;
 
 import matveyeva.phonebook.menu.LoginMenu;
 
+import java.util.InputMismatchException;
+
 public class Application {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         LoginMenu app = new LoginMenu();
-        app.start();
+        try{
+            app.start();
+        }catch (InputMismatchException ex){
+            app.start();
+        }
     }
 }

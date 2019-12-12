@@ -2,6 +2,7 @@ package matveyeva.phonebook.crud;
 
 import matveyeva.phonebook.entity.Contact;
 import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.exception.InvalidContactException;
 
 import java.io.*;
 import java.util.*;
@@ -30,29 +31,43 @@ public class ContactCRUD {
     }
 
     public Contact update(String newContact, Contact oldContact){
-        Contact upContact = split(newContact);
-        if(upContact.isContactValid()) {
+        try{
+            Contact upContact = split(newContact);
             userContacts.remove(oldContact);
             userContacts.add(upContact);
             return upContact;
-        }else return null;
+
+        }catch (InvalidContactException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
     }
 
     public Contact create(String str){
-        Contact contact = split(str);
-
-        if(contact != null && contact.isContactValid()){
-            try {
-                if(userContacts.add(contact)){
-//                    writeContactToFile(contact);
-                    return contact;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try{
+            Contact contact = split(str);
+            userContacts.add(contact);
+            return contact;
+        }catch (InvalidContactException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }catch (IllegalArgumentException iex){
+            System.out.println("Contact exists");
+            return null;
         }
 
-        return null;
+//
+//        if(contact != null && contact.isContactValid()){
+//            try {
+//                if(userContacts.add(contact)){
+////                    writeContactToFile(contact);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
     }
 
     public void delete(Contact contact){
@@ -101,14 +116,15 @@ public class ContactCRUD {
         }
     }
 
-    private Contact split(String str){
+    private Contact split(String str) throws InvalidContactException {
+
         String[] cont = str.split(",");
         Contact contact;
         if(cont.length == 3){
             contact = new Contact(cont[0], cont[1], cont[2],this.user);
+            contact.isContactValid();
             return contact;
-        }
-        return null;
+        }else throw new InvalidContactException("Incorrect contact data");
     }
 }
 

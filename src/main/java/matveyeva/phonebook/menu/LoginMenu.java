@@ -5,6 +5,7 @@ import matveyeva.phonebook.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LoginMenu {
@@ -17,9 +18,10 @@ public class LoginMenu {
         logger.info("LoginMenu opened");
     }
 
-    public void start(){
+    public void start() throws InputMismatchException{
         boolean check = false;
-        while(!check) {
+
+        while (!check) {
             System.out.println("login | registration | exit");
             switch (scanner.nextInt()) {
                 case 1:
@@ -36,6 +38,7 @@ public class LoginMenu {
                     break;
             }
         }
+
     }
 
     private void exit() {
@@ -62,7 +65,6 @@ public class LoginMenu {
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
         } else {
-            System.out.println("username/password is not valid");
             start();
         }
 
@@ -70,13 +72,14 @@ public class LoginMenu {
     private void registration(){
         System.out.println("Create new  username,password");
         User user;
-        if((user = userCRUD.createUser(scanner.next())) != null){
+        if((user = userCRUD.createUser(scanner.next())) != null) {
             logger.info("User " + user.getUserName() + " created and logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
-        } else{
-            System.out.println("User exist / username and password are not valid");
-            start();
-        }
+        }else start();
+//        else{
+//            System.out.println("User exist / username and password are not valid");
+//            start();
+//        }
     }
 }

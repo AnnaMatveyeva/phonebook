@@ -79,7 +79,8 @@ public class AdminMenu {
             if((user =crud.createUser(str))!= null){
                 logger.info("Admin created new user" + user.getUserName());
                 System.out.println("Created: " + user.getUserName());
-            }else System.out.println("user exists or user is not valid");
+            }
+//            else System.out.println("user exists or user is not valid");
         }
         showMenu();
     }
@@ -89,11 +90,12 @@ public class AdminMenu {
         if(scanner.hasNext()){
             String username = scanner.next();
             User user;
+
             if((user = crud.findByName(username)) != null){
                 logger.info("Admin read user " + user.getUserName());
-                System.out.println(user);
-            }else
-                System.out.printf("user not found\n");
+                System.out.println("Username: " + user.getUserName() + ", password: " + user.getPassword());
+            }
+            else System.out.printf("user not found\n");
         }
         showMenu();
     }
@@ -161,7 +163,8 @@ public class AdminMenu {
                 case 2:
                     break;
             }
-        }else
+        }
+        else
             System.out.println("User not found\n");
 
         showMenu();
@@ -176,10 +179,11 @@ public class AdminMenu {
             System.out.println("Enter username,password");
             String newContact = scanner.next();
             if((user = crud.update(newContact,user)) != null){
-                logger.info("Admin updated " + user);
-                System.out.println("Updated: " + user);
-            } else System.out.println("User is not valid");
-        }else
+                logger.info("Admin updated " + user.getUserName());
+                System.out.println("Updated: " + user.getUserName());
+            }
+        }
+        else
             System.out.println("User not found\n");
 
         showMenu();
