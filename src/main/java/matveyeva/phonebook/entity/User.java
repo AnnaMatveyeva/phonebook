@@ -1,11 +1,9 @@
 package matveyeva.phonebook.entity;
 
-import matveyeva.phonebook.exception.InvalidUserException;
+import matveyeva.phonebook.Validator;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
@@ -45,14 +43,5 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(userName, password);
-    }
-
-    public boolean isUserValid() throws InvalidUserException {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]{3,15}$");
-        Matcher matcherN = pattern.matcher(userName);
-        Matcher matcherP = pattern.matcher(password);
-        if(matcherN.matches() && matcherP.matches()){
-            return true;
-        }else throw new InvalidUserException("incorrect user data");
     }
 }

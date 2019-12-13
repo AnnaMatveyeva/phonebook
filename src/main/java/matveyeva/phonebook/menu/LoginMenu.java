@@ -8,17 +8,17 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class LoginMenu {
+public class LoginMenu implements Menu{
+
     private final Scanner scanner = new Scanner(System.in);
     private final UserCRUD userCRUD = new UserCRUD();
-    private static Logger logger;
+    private static final Logger logger  = Logger.getLogger(LoginMenu.class);
 
     public LoginMenu(){
-        logger = Logger.getLogger(LoginMenu.class);
         logger.info("LoginMenu opened");
     }
 
-    public void start() throws InputMismatchException{
+    public void showMenu() throws InputMismatchException{
         boolean check = false;
 
         while (!check) {
@@ -38,10 +38,9 @@ public class LoginMenu {
                     break;
             }
         }
-
     }
 
-    private void exit() {
+    public void exit() {
         System.out.println("Exit");
         logger.info("Application closed");
         try {
@@ -65,7 +64,7 @@ public class LoginMenu {
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
         } else {
-            start();
+            showMenu();
         }
 
     }
@@ -76,7 +75,7 @@ public class LoginMenu {
             logger.info("User " + user.getUserName() + " created and logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
-        }else start();
+        }else showMenu();
 //        else{
 //            System.out.println("User exist / username and password are not valid");
 //            start();

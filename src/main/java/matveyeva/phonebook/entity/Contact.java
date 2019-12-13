@@ -1,13 +1,8 @@
 package matveyeva.phonebook.entity;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-import matveyeva.phonebook.exception.InvalidContactException;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Contact implements Serializable{
 
@@ -66,29 +61,6 @@ public class Contact implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
-
-    //check
-    public boolean isContactValid() throws InvalidContactException {
-        return isPhoneNumberValid() && isUserNameValid();
-    }
-
-    private boolean isPhoneNumberValid() throws InvalidContactException {
-        Pattern pattern = Pattern.compile("\\+375\\d{9}");
-        Matcher matcher = pattern.matcher(phoneNumber);
-        if(matcher.matches()) {
-            System.out.println("Phone number is valid");
-            return true;
-        }
-        else throw new InvalidContactException("Phone number is not correct");
-    }
-    private boolean isUserNameValid() throws InvalidContactException {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]{3,15}$");
-        Matcher matcherF = pattern.matcher(firstName);
-        Matcher matcherL = pattern.matcher(lastName);
-        if(matcherF.matches() && matcherL.matches()) return true;
-        else throw new InvalidContactException("User name is not correct");
-    }
-
 
     public String toString(){
         return this.firstName + " " + this.lastName + " " +this.phoneNumber + " " + this.creationDate;

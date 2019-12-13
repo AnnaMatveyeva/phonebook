@@ -1,5 +1,6 @@
 package matveyeva.phonebook.crud;
 
+import matveyeva.phonebook.Validator;
 import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidUserException;
 import org.apache.log4j.Logger;
@@ -7,16 +8,18 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UserCRUD {
 
     private static Set<User> users = new HashSet<User>();
-    private static Logger logger;
+    private static final Logger logger  = Logger.getLogger(UserCRUD.class);
     private ContactCRUD contactCRUD;
+    private final Validator validator = new Validator();
 
     public UserCRUD(){
-        logger = Logger.getLogger(this.getClass());
+
         try {
             loadUsers();
         } catch (Exception e) {
@@ -61,7 +64,6 @@ public class UserCRUD {
             e.printStackTrace();
         }
         users.remove(user);
-        reloadUsers();
     }
 
     public void deleteAll() throws IOException {
@@ -70,9 +72,8 @@ public class UserCRUD {
             contactCRUD.deleteAll();
         }
         contactCRUD.reloadContacts();
-        ArrayList<User> arr = new ArrayList<User>(users);
+        List<User> arr = new ArrayList<User>(users);
         users.removeAll(arr);
-        reloadUsers();
     }
 
     public User update(String newUser, User oldUser){
@@ -96,26 +97,27 @@ public class UserCRUD {
             if(user.getUserName().contains(username)){
                 return user;
             }
-
         }
         return null;
     }
 
     private void loadUsers() throws Exception {
-        FileInputStream fileInputStream = new FileInputStream("users.ser");
-        while (fileInputStream.available() > 0) {
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            User user = (User) objectInputStream.readObject();
-            users.add(user);
+//        FileInputStream fileInputStream = new FileInputStream("users.ser");
+        try(FileInputStream fileInputStream = new FileInputStream("users.ser")) {
+            while (fileInputStream.available() > 0) {
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                users = (Set<User>) objectInputStream.readObject();
+
+            }
         }
     }
     public void reloadUsers() throws IOException {
-        FileOutputStream outputStream = new FileOutputStream("users.ser");
-        for(User user : users){
+//        FileOutputStream outputStream = new FileOutputStream("users.ser");
+        try (FileOutputStream outputStream = new FileOutputStream("users.ser")) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(user);
+            objectOutputStream.writeObject(users);
         }
-        outputStream.close();
+
 
     }
 
@@ -123,18 +125,14 @@ public class UserCRUD {
         String[] userstr = str.split(",");
         if(userstr.length == 2){
             User user = new User(userstr[0], userstr[1]);
-            user.isUserValid();
-            return user;
-        }else throw new InvalidUserException("Incorrect user data");
+            if(!validator.checkPersonData(user.getUserName())){
+                throw new InvalidUserException("Incorrect user name. Name should has from 3 to 15 characters and contains only letters and numerals");
+            }else if(!validator.checkPersonData(user.getPassword())){
+                throw new InvalidUserException("Incorrect user password. Password should has from 3 to 15 characters and contains only letters and numerals");
+            } else return user;
+        }else throw new InvalidUserException("Incorrect input data.Try again");
     }
 
-    private void writeUserToFile(User user) throws IOException{
-        FileOutputStream outputStream = new FileOutputStream("users.ser",true);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-        objectOutputStream.writeObject(user);
-        objectOutputStream.close();
-        outputStream.close();
-    }
 
     public User findOne(String namePass) {
         try{
