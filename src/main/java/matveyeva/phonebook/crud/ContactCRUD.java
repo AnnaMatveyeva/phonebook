@@ -1,8 +1,10 @@
 package matveyeva.phonebook.crud;
 
+import matveyeva.phonebook.Validator;
 import matveyeva.phonebook.entity.Contact;
 import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidContactException;
+import matveyeva.phonebook.exception.InvalidUserException;
 
 import java.io.*;
 import java.util.*;
@@ -11,6 +13,7 @@ public class ContactCRUD {
     private Set<Contact> allContacts;
     private Set<Contact> userContacts;
     private User user;
+    private final Validator validator = new Validator();
 
     public ContactCRUD(User user){
         this.user = user;
@@ -75,7 +78,6 @@ public class ContactCRUD {
     }
 
     public Set<Contact> readAll(){
-
         return userContacts;
     }
 
@@ -85,9 +87,9 @@ public class ContactCRUD {
         FileInputStream fileInputStream = new FileInputStream("contacts.ser");
         while (fileInputStream.available() > 0) {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            Contact contact = (Contact) objectInputStream.readObject();
-            allContacts.add(contact);
+            allContacts = (Set<Contact>) objectInputStream.readObject();
         }
+
         for(Contact con : allContacts){
             if(con.getUser().equals(this.user)){
                 userContacts.add(con);
@@ -97,23 +99,21 @@ public class ContactCRUD {
     }
 
     public void reloadContacts() throws IOException {
-        FileOutputStream outputStream = new FileOutputStream("contacts.ser");
-        allContacts.addAll(userContacts);
-        for(Contact cont: allContacts){
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(cont);
+//        FileOutputStream outputStream = new FileOutputStream("contacts.ser");
+        try(FileOutputStream outputStream = new FileOutputStream("contacts.ser")){
+            allContacts.addAll(userContacts);
+            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+            oos.writeObject(allContacts);
+//            for(Contact cont: allContacts){
+//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+//                objectOutputStream.writeObject(cont);
+//            }
         }
-        outputStream.close();
     }
 
     public void deleteAll() {
-        ArrayList<Contact> arr = new ArrayList<Contact>(userContacts);
+        List<Contact> arr = new ArrayList<Contact>(userContacts);
         userContacts.removeAll(arr);
-        try {
-            reloadContacts();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private Contact split(String str) throws InvalidContactException {
@@ -122,9 +122,14 @@ public class ContactCRUD {
         Contact contact;
         if(cont.length == 3){
             contact = new Contact(cont[0], cont[1], cont[2],this.user);
-            contact.isContactValid();
-            return contact;
-        }else throw new InvalidContactException("Incorrect contact data");
+            if(!validator.checkPersonData(contact.getFirstName())){
+                throw new InvalidContactException("Incorrect first name.First name should has from 3 to 15 characters and contains only letters and numerals");
+            }else if(!validator.checkPersonData(contact.getLastName())){
+                throw new InvalidContactException("Incorrect last name.Last name should has from 3 to 15 characters and contains only letters and numerals");
+            } else if(!validator.checkPhone(contact.getPhoneNumber())) {
+                throw new InvalidContactException("Incorrect phone number. Phone number should starts with +375 and has 12 numerals");
+            } else return contact;
+        }else throw new InvalidContactException("Incorrect contact data.Try again");
     }
 }
 

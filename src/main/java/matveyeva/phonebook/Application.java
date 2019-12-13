@@ -9,9 +9,9 @@ public class Application {
     public static void main(String[] args){
         LoginMenu app = new LoginMenu();
         try{
-            app.start();
+            app.showMenu();
         }catch (InputMismatchException ex){
-            app.start();
+            app.showMenu();
         }
     }
 }

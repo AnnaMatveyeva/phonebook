@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-public class AdminMenu {
+public class AdminMenu implements Menu{
     private Scanner scanner = new Scanner(System.in);
     private UserCRUD crud;
-    static Logger logger;
+    private static final Logger logger  = Logger.getLogger(AdminMenu.class);
 
     public AdminMenu(){
         crud = new UserCRUD();
-        logger = Logger.getLogger(this.getClass());
         logger.info("AdminMenu opened");
     }
     public void showMenu() {
@@ -68,7 +67,7 @@ public class AdminMenu {
             e.printStackTrace();
         }
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start();
+        loginMenu.showMenu();
     }
 
     private void createUser() {
@@ -120,7 +119,7 @@ public class AdminMenu {
         showMenu();
     }
 
-    private void exit(){
+    public void exit(){
         System.out.println("Exit");
         logger.info("Admin closed the application");
         try {

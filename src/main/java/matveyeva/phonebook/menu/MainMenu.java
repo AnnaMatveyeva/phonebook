@@ -9,15 +9,14 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class MainMenu {
+public class MainMenu implements Menu{
     private  Scanner scanner = new Scanner(System.in);
     private ContactCRUD concrud;
     private UserCRUD userCRUD;
     private User user;
-    static Logger logger;
+    private static final Logger logger  = Logger.getLogger(MainMenu.class);
 
     public MainMenu(User user){
-        logger = Logger.getLogger(this.getClass());
         logger.info("MainMenu opened");
         this.user = user;
         concrud = new ContactCRUD(user);
@@ -76,7 +75,7 @@ public class MainMenu {
             e.printStackTrace();
         }
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start();
+        loginMenu.showMenu();
     }
 
     private void deleteAll() {
@@ -119,7 +118,7 @@ public class MainMenu {
         showMenu();
     }
 
-    private void exit() {
+    public void exit() {
         System.out.println("Exit");
         logger.info("User " + user.getUserName() + " closed the application");
         try {
