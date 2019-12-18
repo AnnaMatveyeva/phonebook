@@ -1,7 +1,5 @@
 package matveyeva.phonebook.entity;
 
-import matveyeva.phonebook.Validator;
-
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -8,18 +8,19 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-public class AdminMenu implements Menu{
+public class AdminMenu implements Menu {
     private Scanner scanner = new Scanner(System.in);
     private UserCRUD crud;
-    private static final Logger logger  = Logger.getLogger(AdminMenu.class);
+    private static final Logger logger = Logger.getLogger(AdminMenu.class);
 
-    public AdminMenu(){
+    public AdminMenu() {
         crud = new UserCRUD();
         logger.info("AdminMenu opened");
     }
+
     public void showMenu() {
         boolean check = false;
-        while(!check) {
+        while (!check) {
             System.out.println("show user| add user | update user | delete user | show all | delete all | logoff | exit");
             switch (scanner.nextInt()) {
                 case 1:
@@ -72,10 +73,10 @@ public class AdminMenu implements Menu{
 
     private void createUser() {
         System.out.println("Enter username,password");
-        if(scanner.hasNext()){
+        if(scanner.hasNext()) {
             String str = scanner.next();
             User user;
-            if((user =crud.createUser(str))!= null){
+            if((user = crud.createUser(str)) != null) {
                 logger.info("Admin created new user" + user.getUserName());
                 System.out.println("Created: " + user.getUserName());
             }
@@ -86,23 +87,22 @@ public class AdminMenu implements Menu{
 
     private void readOne() {
         System.out.println("Enter username");
-        if(scanner.hasNext()){
+        if(scanner.hasNext()) {
             String username = scanner.next();
             User user;
 
-            if((user = crud.findByName(username)) != null){
+            if((user = crud.findByName(username)) != null) {
                 logger.info("Admin read user " + user.getUserName());
                 System.out.println("Username: " + user.getUserName() + ", password: " + user.getPassword());
-            }
-            else System.out.printf("user not found\n");
+            } else System.out.printf("user not found\n");
         }
         showMenu();
     }
 
-    private void deleteAll(){
-        if(!crud.findAll().isEmpty()){
+    private void deleteAll() {
+        if(!crud.findAll().isEmpty()) {
             System.out.println("Do you want to delete all users? \nYes | No");
-            switch (Integer.parseInt(scanner.next())){
+            switch (Integer.parseInt(scanner.next())) {
                 case 1:
                     try {
                         crud.deleteAll();
@@ -119,7 +119,7 @@ public class AdminMenu implements Menu{
         showMenu();
     }
 
-    public void exit(){
+    public void exit() {
         System.out.println("Exit");
         logger.info("Admin closed the application");
         try {
@@ -128,10 +128,11 @@ public class AdminMenu implements Menu{
             e.printStackTrace();
         }
     }
-    private void readAll(){
+
+    private void readAll() {
         if(crud.findAll().isEmpty()) {
             System.out.println("Nothing to show");
-        }else {
+        } else {
             logger.info("Admin read all users");
             System.out.println("All users: ");
             for(User user : crud.findAll()) {
@@ -141,15 +142,15 @@ public class AdminMenu implements Menu{
         showMenu();
     }
 
-    private void delete(){
+    private void delete() {
         System.out.println("Enter username");
         String username = scanner.next();
         User user;
 
-        if((user = crud.findByName(username)) != null){
-            System.out.println("Do you want to delete " + user.getUserName()+ "\nYes | No");
+        if((user = crud.findByName(username)) != null) {
+            System.out.println("Do you want to delete " + user.getUserName() + "\nYes | No");
             String answer = scanner.next();
-            switch (Integer.parseInt(answer)){
+            switch (Integer.parseInt(answer)) {
                 case 1:
                     try {
                         crud.delete(user);
@@ -162,27 +163,25 @@ public class AdminMenu implements Menu{
                 case 2:
                     break;
             }
-        }
-        else
+        } else
             System.out.println("User not found\n");
 
         showMenu();
     }
 
-    private void update(){
+    private void update() {
         System.out.println("Enter username");
 
         String username = scanner.next();
         User user;
-        if((user = crud.findByName(username)) != null){
+        if((user = crud.findByName(username)) != null) {
             System.out.println("Enter username,password");
             String newContact = scanner.next();
-            if((user = crud.update(newContact,user)) != null){
+            if((user = crud.update(newContact, user)) != null) {
                 logger.info("Admin updated " + user.getUserName());
                 System.out.println("Updated: " + user.getUserName());
             }
-        }
-        else
+        } else
             System.out.println("User not found\n");
 
         showMenu();

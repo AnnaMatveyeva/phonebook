@@ -9,14 +9,14 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class MainMenu implements Menu{
-    private  Scanner scanner = new Scanner(System.in);
+public class MainMenu implements Menu {
+    private Scanner scanner = new Scanner(System.in);
     private ContactCRUD concrud;
     private UserCRUD userCRUD;
     private User user;
-    private static final Logger logger  = Logger.getLogger(MainMenu.class);
+    private static final Logger logger = Logger.getLogger(MainMenu.class);
 
-    public MainMenu(User user){
+    public MainMenu(User user) {
         logger.info("MainMenu opened");
         this.user = user;
         concrud = new ContactCRUD(user);
@@ -26,7 +26,7 @@ public class MainMenu implements Menu{
 
     public void showMenu() {
         boolean check = false;
-        while(!check) {
+        while (!check) {
             System.out.println("show contact| add contact | update contact | delete contact | show all | delete all | logoff | exit");
             switch (scanner.nextInt()) {
                 case 1:
@@ -79,9 +79,9 @@ public class MainMenu implements Menu{
     }
 
     private void deleteAll() {
-        if(!concrud.readAll().isEmpty()){
+        if(!concrud.readAll().isEmpty()) {
             System.out.println("Do you want to delete all contacts? \nYes | No");
-            switch (Integer.parseInt(scanner.next())){
+            switch (Integer.parseInt(scanner.next())) {
                 case 1:
                     concrud.deleteAll();
                     logger.info("All " + user.getUserName() + "s contacts deleted");
@@ -99,13 +99,13 @@ public class MainMenu implements Menu{
         String phone = scanner.next();
         Contact contact;
 
-        if((contact = concrud.findByNumber(phone)) != null){
-            System.out.println("Do you want to delete " + contact.toString()+ "\nYes | No");
+        if((contact = concrud.findByNumber(phone)) != null) {
+            System.out.println("Do you want to delete " + contact.toString() + "\nYes | No");
             String answer = scanner.next();
-            switch (Integer.parseInt(answer)){
+            switch (Integer.parseInt(answer)) {
                 case 1:
                     concrud.delete(contact);
-                    logger.info(user.getUserName() + "s contact " + contact +" deleted");
+                    logger.info(user.getUserName() + "s contact " + contact + " deleted");
                     System.out.println("Contact deleted");
                     break;
                 case 2:
@@ -129,12 +129,12 @@ public class MainMenu implements Menu{
         }
     }
 
-    private void createContact(){
+    private void createContact() {
         System.out.println("Enter firstName,lastName,phoneNumber");
-        if(scanner.hasNext()){
+        if(scanner.hasNext()) {
             String str = scanner.next();
             Contact con;
-            if((con = concrud.create(str))!= null){
+            if((con = concrud.create(str)) != null) {
                 logger.info("User " + user.getUserName() + " created new contact");
                 System.out.println("Created: " + con);
             }
@@ -143,10 +143,10 @@ public class MainMenu implements Menu{
         showMenu();
     }
 
-    private void readAll(){
+    private void readAll() {
         if(concrud.readAll().isEmpty()) {
             System.out.println("Nothing to show");
-        }else {
+        } else {
             logger.info("User " + user.getUserName() + " read all contacts");
             System.out.println("All contacts: ");
             for(Contact con : concrud.readAll()) {
@@ -155,15 +155,16 @@ public class MainMenu implements Menu{
         }
         showMenu();
     }
-    private void updateContact(){
+
+    private void updateContact() {
         System.out.println("Enter phoneNumber");
 
         String phone = scanner.next();
         Contact contact;
-        if((contact = concrud.findByNumber(phone)) != null){
+        if((contact = concrud.findByNumber(phone)) != null) {
             System.out.println("Enter firstName,lastName,phoneNumber");
             String newContact = scanner.next();
-            if((contact = concrud.update(newContact,contact)) != null){
+            if((contact = concrud.update(newContact, contact)) != null) {
                 logger.info("User " + user.getUserName() + " updated contact " + contact);
                 System.out.println("Updated: " + contact);
             }
@@ -174,13 +175,13 @@ public class MainMenu implements Menu{
         showMenu();
     }
 
-    private void readOne(){
+    private void readOne() {
         System.out.println("Enter phoneNumber");
 
-        if(scanner.hasNext()){
+        if(scanner.hasNext()) {
             String phone = scanner.next();
             Contact contact;
-            if((contact = concrud.findByNumber(phone)) != null){
+            if((contact = concrud.findByNumber(phone)) != null) {
                 logger.info("User " + user.getUserName() + " read contact " + contact);
                 System.out.println(contact);
             }

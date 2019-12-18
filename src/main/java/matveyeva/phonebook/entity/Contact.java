@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Contact implements Serializable{
+public class Contact implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
@@ -14,7 +14,7 @@ public class Contact implements Serializable{
     private LocalDate creationDate;
     private User user;
 
-    public Contact(String firstName, String lastName, String phoneNumber,User user) {
+    public Contact(String firstName, String lastName, String phoneNumber, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -62,8 +62,8 @@ public class Contact implements Serializable{
         this.user = user;
     }
 
-    public String toString(){
-        return this.firstName + " " + this.lastName + " " +this.phoneNumber + " " + this.creationDate;
+    public String toString() {
+        return this.firstName + " " + this.lastName + " " + this.phoneNumber + " " + this.creationDate;
     }
 
     @Override
@@ -78,10 +78,11 @@ public class Contact implements Serializable{
     public int hashCode() {
         return Objects.hash(phoneNumber);
     }
-    public boolean isTheSame(Contact contact){
-        if(this.getFirstName().equals(contact.getFirstName()) && this.getLastName().equals(contact.getLastName()) && this.getPhoneNumber().equals(contact.getPhoneNumber())){
+
+    public boolean isTheSame(Contact contact) {
+        if(this.getFirstName().equals(contact.getFirstName()) && this.getLastName().equals(contact.getLastName()) && this.getPhoneNumber().equals(contact.getPhoneNumber())) {
             return true;
-        }else return false;
+        } else return false;
     }
 
 }
