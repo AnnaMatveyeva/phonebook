@@ -11,7 +11,7 @@ public class LoginMenu implements Menu{
     private final Scanner scanner = new Scanner(System.in);
     private final UserCRUD userCRUD = UserCRUD.INSTANCE;
     private static final Logger logger = Logger.getLogger(LoginMenu.class);
-    private AuthorizationService authService = AuthorizationService.getInstance(userCRUD,scanner);
+    private AuthorizationService authService = AuthorizationService.INSTANCE;
 
     public LoginMenu() {
         logger.info("LoginMenu opened");

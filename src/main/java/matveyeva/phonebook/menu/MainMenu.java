@@ -1,32 +1,22 @@
 package matveyeva.phonebook.menu;
 
-import matveyeva.phonebook.crud.ContactCRUD;
-import matveyeva.phonebook.crud.UserCRUD;
-import matveyeva.phonebook.entity.Contact;
-import matveyeva.phonebook.entity.User;
-import matveyeva.phonebook.service.ContactService;
-import matveyeva.phonebook.service.UserService;
-import org.apache.log4j.Logger;
-
-import java.io.IOException;
 import java.util.Scanner;
+import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.service.AuthorizationService;
+import matveyeva.phonebook.service.ContactService;
+import org.apache.log4j.Logger;
 
 public class MainMenu implements Menu {
 
     private Scanner scanner = new Scanner(System.in);
-    private ContactCRUD concrud;
-    private UserCRUD userCRUD;
     private User user;
     private static final Logger logger = Logger.getLogger(MainMenu.class);
-
-    private ContactService contactService = ContactService.getInstance(userCRUD, concrud,scanner);
+    private ContactService contactService = ContactService.INSTANCE;
+    private AuthorizationService authService = AuthorizationService.INSTANCE;
 
     public MainMenu(User user) {
         logger.info("MainMenu opened");
         this.user = user;
-        concrud = new ContactCRUD();
-        concrud.setContacts(user.getContacts());
-        userCRUD = UserCRUD.INSTANCE;
     }
 
     public void showMenu() {
@@ -36,151 +26,32 @@ public class MainMenu implements Menu {
                 "show contact| add contact | update contact | delete contact | show all | delete all | logoff | exit");
             switch (scanner.nextInt()) {
                 case 1:
-                    readOne();
-                    check = true;
+                    contactService.readOne(user);
                     break;
                 case 2:
-                    createContact();
-                    check = true;
+                    contactService.createContact(user);
                     break;
                 case 3:
-                    updateContact();
-                    check = true;
+                    contactService.updateContact(user);
                     break;
                 case 4:
-                    delete();
-                    check = true;
+                    contactService.delete(user);
                     break;
                 case 5:
-                    readAll();
-                    check = true;
+                    contactService.readAll(user);
                     break;
                 case 6:
-                    deleteAll();
-                    check = true;
+                    contactService.deleteAll(user);
                     break;
                 case 7:
-                    logoff();
+                    authService.logoff();
                     check = true;
                     break;
                 case 8:
-                    exit();
-                    check = true;
+                    authService.exit();
                     break;
             }
         }
-    }
-
-    private void logoff() {
-        try {
-            logger.info("User " + user.getUserName() + " logged off");
-            userCRUD.reloadUsers();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LoginMenu loginMenu = new LoginMenu();
-        loginMenu.showMenu();
-    }
-
-    private void deleteAll() {
-        if (!concrud.readAll().isEmpty()) {
-            System.out.println("Do you want to delete all contacts? \nYes | No");
-            String answer = scanner.next();
-            if (answer.equals("1")) {
-                concrud.deleteAll();
-                logger.info("All " + user.getUserName() + "s contacts deleted");
-                System.out.println("All contacts deleted");
-            }
-        } else {
-            System.out.println("Nothing to delete");
-        }
-        showMenu();
-    }
-
-    private void delete() {
-        System.out.println("Enter phoneNumber");
-        String phone = scanner.next();
-        Contact contact;
-
-        if ((contact = concrud.findByNumber(phone)) != null) {
-            System.out.println("Do you want to delete " + contact.toString() + "\nYes | No");
-            String answer = scanner.next();
-
-            if (answer.equals("1")) {
-                concrud.delete(contact);
-                logger.info(user.getUserName() + "s contact " + contact + " deleted");
-                System.out.println("Contact deleted");
-            }
-        }
-        showMenu();
-    }
-
-    public void exit() {
-        System.out.println("Exit");
-        logger.info("User " + user.getUserName() + " closed the application");
-        try {
-            userCRUD.reloadUsers();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createContact() {
-        System.out.println("Enter firstName,lastName,phoneNumber");
-        if (scanner.hasNext()) {
-            String str = scanner.next();
-            Contact con;
-            if ((con = concrud.create(str)) != null) {
-                logger.info("User " + user.getUserName() + " created new contact");
-                System.out.println("Created: " + con);
-            }
-        }
-        showMenu();
-    }
-
-    private void readAll() {
-        if (concrud.readAll().isEmpty()) {
-            System.out.println("Nothing to show");
-        } else {
-            logger.info("User " + user.getUserName() + " read all contacts");
-            System.out.println("All contacts: ");
-            for (Contact con : concrud.readAll()) {
-                System.out.println(con);
-            }
-        }
-        showMenu();
-    }
-
-    private void updateContact() {
-        System.out.println("Enter phoneNumber");
-
-        String phone = scanner.next();
-        Contact contact;
-        if ((contact = concrud.findByNumber(phone)) != null) {
-            System.out.println("Enter firstName,lastName,phoneNumber");
-            String newContact = scanner.next();
-            if ((contact = concrud.update(newContact, contact)) != null) {
-                logger.info("User " + user.getUserName() + " updated contact " + contact);
-                System.out.println("Updated: " + contact);
-            }
-        }
-        showMenu();
-    }
-
-    private void readOne() {
-        System.out.println("Enter phoneNumber");
-
-        if (scanner.hasNext()) {
-            String phone = scanner.next();
-            Contact contact;
-            if ((contact = concrud.findByNumber(phone)) != null) {
-                logger.info("User " + user.getUserName() + " read contact " + contact);
-                System.out.println(contact);
-            }
-        }
-        showMenu();
     }
 
 }

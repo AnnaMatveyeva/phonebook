@@ -6,24 +6,13 @@ import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
 import org.apache.log4j.Logger;
 
-public class UserService {
-
-    private Scanner scanner;
-    private UserCRUD crud;
+public enum UserService {
+    INSTANCE;
+    private static final Scanner scanner = new Scanner(System.in);
+    private UserCRUD crud = UserCRUD.INSTANCE;
     private static final Logger logger = Logger.getLogger(UserService.class);
-    private static UserService instance;
 
-    private UserService(UserCRUD crud, Scanner scanner) {
-        this.crud = crud;
-        this.scanner = scanner;
-    }
 
-    public static UserService getInstance(UserCRUD crud, Scanner scanner) {
-        if (instance == null) {
-            instance = new UserService(crud, scanner);
-            return instance;
-        }else return instance;
-    }
 
     public void createUser() {
         System.out.println("Enter username,password");
