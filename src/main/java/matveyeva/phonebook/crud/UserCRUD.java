@@ -71,7 +71,7 @@ public class UserCRUD {
     }
 
     public void deleteAll() throws IOException {
-        for(User user : users) {
+        for (User user : users) {
             contactCRUD = new ContactCRUD(user);
             contactCRUD.deleteAll();
         }
@@ -97,8 +97,8 @@ public class UserCRUD {
     }
 
     public User findByName(String username) {
-        for(User user : users) {
-            if(user.getUserName().contains(username)) {
+        for (User user : users) {
+            if (user.getUserName().contains(username)) {
                 return user;
             }
         }
@@ -107,7 +107,7 @@ public class UserCRUD {
 
     private void loadUsers() throws Exception {
 //        FileInputStream fileInputStream = new FileInputStream("users.ser");
-        try(FileInputStream fileInputStream = new FileInputStream("users.ser")) {
+        try (FileInputStream fileInputStream = new FileInputStream("users.ser")) {
             while (fileInputStream.available() > 0) {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 users = (Set<User>) objectInputStream.readObject();
@@ -118,7 +118,7 @@ public class UserCRUD {
 
     public void reloadUsers() throws IOException {
 //        FileOutputStream outputStream = new FileOutputStream("users.ser");
-        try(FileOutputStream outputStream = new FileOutputStream("users.ser")) {
+        try (FileOutputStream outputStream = new FileOutputStream("users.ser")) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(users);
         }
@@ -128,23 +128,31 @@ public class UserCRUD {
 
     private User split(String str) throws InvalidUserException {
         String[] userstr = str.split(",");
-        if(userstr.length == 2) {
+        if (userstr.length == 2) {
             User user = new User(userstr[0], userstr[1]);
-            if(!validator.checkPersonData(user.getUserName())) {
-                throw new InvalidUserException("Incorrect user name. Name should has from 3 to 15 characters and contains only letters and numerals");
-            } else if(!validator.checkPersonData(user.getPassword())) {
-                throw new InvalidUserException("Incorrect user password. Password should has from 3 to 15 characters and contains only letters and numerals");
-            } else return user;
-        } else throw new InvalidUserException("Incorrect input data.Try again");
+            if (!validator.checkPersonData(user.getUserName())) {
+                throw new InvalidUserException(
+                    "Incorrect user name. Name should has from 3 to 15 characters and contains only letters and numerals");
+            } else if (!validator.checkPersonData(user.getPassword())) {
+                throw new InvalidUserException(
+                    "Incorrect user password. Password should has from 3 to 15 characters and contains only letters and numerals");
+            } else {
+                return user;
+            }
+        } else {
+            throw new InvalidUserException("Incorrect input data.Try again");
+        }
     }
 
 
     public User findOne(String namePass) {
         try {
             User user = split(namePass);
-            if(users.contains(user)) {
+            if (users.contains(user)) {
                 return user;
-            } else throw new InvalidUserException("User not exists");
+            } else {
+                throw new InvalidUserException("User not exists");
+            }
         } catch (InvalidUserException ex) {
             System.out.println(ex.getMessage());
             return null;

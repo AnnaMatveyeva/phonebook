@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenu implements Menu {
+
     private Scanner scanner = new Scanner(System.in);
     private ContactCRUD concrud;
     private UserCRUD userCRUD;
@@ -27,7 +28,8 @@ public class MainMenu implements Menu {
     public void showMenu() {
         boolean check = false;
         while (!check) {
-            System.out.println("show contact| add contact | update contact | delete contact | show all | delete all | logoff | exit");
+            System.out.println(
+                "show contact| add contact | update contact | delete contact | show all | delete all | logoff | exit");
             switch (scanner.nextInt()) {
                 case 1:
                     readOne();
@@ -79,7 +81,7 @@ public class MainMenu implements Menu {
     }
 
     private void deleteAll() {
-        if(!concrud.readAll().isEmpty()) {
+        if (!concrud.readAll().isEmpty()) {
             System.out.println("Do you want to delete all contacts? \nYes | No");
             switch (Integer.parseInt(scanner.next())) {
                 case 1:
@@ -90,7 +92,9 @@ public class MainMenu implements Menu {
                 case 2:
                     break;
             }
-        } else System.out.println("Nothing to delete");
+        } else {
+            System.out.println("Nothing to delete");
+        }
         showMenu();
     }
 
@@ -99,7 +103,7 @@ public class MainMenu implements Menu {
         String phone = scanner.next();
         Contact contact;
 
-        if((contact = concrud.findByNumber(phone)) != null) {
+        if ((contact = concrud.findByNumber(phone)) != null) {
             System.out.println("Do you want to delete " + contact.toString() + "\nYes | No");
             String answer = scanner.next();
             switch (Integer.parseInt(answer)) {
@@ -131,10 +135,10 @@ public class MainMenu implements Menu {
 
     private void createContact() {
         System.out.println("Enter firstName,lastName,phoneNumber");
-        if(scanner.hasNext()) {
+        if (scanner.hasNext()) {
             String str = scanner.next();
             Contact con;
-            if((con = concrud.create(str)) != null) {
+            if ((con = concrud.create(str)) != null) {
                 logger.info("User " + user.getUserName() + " created new contact");
                 System.out.println("Created: " + con);
             }
@@ -144,12 +148,12 @@ public class MainMenu implements Menu {
     }
 
     private void readAll() {
-        if(concrud.readAll().isEmpty()) {
+        if (concrud.readAll().isEmpty()) {
             System.out.println("Nothing to show");
         } else {
             logger.info("User " + user.getUserName() + " read all contacts");
             System.out.println("All contacts: ");
-            for(Contact con : concrud.readAll()) {
+            for (Contact con : concrud.readAll()) {
                 System.out.println(con);
             }
         }
@@ -161,10 +165,10 @@ public class MainMenu implements Menu {
 
         String phone = scanner.next();
         Contact contact;
-        if((contact = concrud.findByNumber(phone)) != null) {
+        if ((contact = concrud.findByNumber(phone)) != null) {
             System.out.println("Enter firstName,lastName,phoneNumber");
             String newContact = scanner.next();
-            if((contact = concrud.update(newContact, contact)) != null) {
+            if ((contact = concrud.update(newContact, contact)) != null) {
                 logger.info("User " + user.getUserName() + " updated contact " + contact);
                 System.out.println("Updated: " + contact);
             }
@@ -178,10 +182,10 @@ public class MainMenu implements Menu {
     private void readOne() {
         System.out.println("Enter phoneNumber");
 
-        if(scanner.hasNext()) {
+        if (scanner.hasNext()) {
             String phone = scanner.next();
             Contact contact;
-            if((contact = concrud.findByNumber(phone)) != null) {
+            if ((contact = concrud.findByNumber(phone)) != null) {
                 logger.info("User " + user.getUserName() + " read contact " + contact);
                 System.out.println(contact);
             }
