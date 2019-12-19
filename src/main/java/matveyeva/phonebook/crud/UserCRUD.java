@@ -15,7 +15,7 @@ import matveyeva.phonebook.exception.InvalidUserException;
 import org.apache.log4j.Logger;
 
 public enum UserCRUD {
-    INSTTANCE;
+    INSTANCE;
 
     private Set<User> users;
     private static final Logger logger = Logger.getLogger(UserCRUD.class);
