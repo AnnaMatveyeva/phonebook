@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import matveyeva.phonebook.UserDB;
 import matveyeva.phonebook.Validator;
 import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidUserException;
@@ -17,27 +18,18 @@ import org.apache.log4j.Logger;
 public enum UserCRUD {
     INSTANCE;
 
-    private Set<User> users;
     private static final Logger logger = Logger.getLogger(UserCRUD.class);
     private final Validator validator = new Validator();
 
-    UserCRUD() {
-        try {
-            loadUsers();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Set<User> getUsers() {
-        return users;
+        return UserDB.INSTANCE.usersContacts.keySet();
     }
 
     public User createUser(String str) {
         try {
             User user = split(str);
             user.setContacts(new HashSet<>());
-            if (users.add(user)) {
+            if (UserDB.INSTANCE.usersContacts.keySet().add(user)) {
                 logger.info("New user " + user.getUserName() + " created");
                 return user;
             } else {
@@ -54,20 +46,20 @@ public enum UserCRUD {
     }
 
     public void delete(User user) throws IOException {
-        users.remove(user);
+        UserDB.INSTANCE.usersContacts.keySet().remove(user);
     }
 
     public void deleteAll() throws IOException {
-        List<User> arr = new ArrayList<User>(users);
-        users.removeAll(arr);
+        List<User> arr = new ArrayList<User>(UserDB.INSTANCE.usersContacts.keySet());
+        UserDB.INSTANCE.usersContacts.keySet().removeAll(arr);
     }
 
     public User update(String newUser, User oldUser) {
         try {
             User user = split(newUser);
             user.setContacts(oldUser.getContacts());
-            users.remove(oldUser);
-            users.add(user);
+            UserDB.INSTANCE.usersContacts.keySet().remove(oldUser);
+            UserDB.INSTANCE.usersContacts.keySet().add(user);
 
             return user;
         } catch (InvalidUserException ex) {
@@ -77,11 +69,11 @@ public enum UserCRUD {
     }
 
     public Set<User> findAll() {
-        return users;
+        return UserDB.INSTANCE.usersContacts.keySet();
     }
 
     public User findByName(String username) {
-        for (User user : users) {
+        for (User user : UserDB.INSTANCE.usersContacts.keySet()) {
             if (user.getUserName().contains(username)) {
                 return user;
             }
@@ -89,21 +81,8 @@ public enum UserCRUD {
         return null;
     }
 
-    public void loadUsers() throws Exception {
-        try (FileInputStream fileInputStream = new FileInputStream("users.ser")) {
-            while (fileInputStream.available() > 0) {
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                users = (Set<User>) objectInputStream.readObject();
-
-            }
-        }
-    }
-
     public void reloadUsers() throws IOException {
-        try (FileOutputStream outputStream = new FileOutputStream("users.ser")) {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(users);
-        }
+        UserDB.INSTANCE.save();
     }
 
     private User split(String str) throws InvalidUserException {
@@ -127,7 +106,7 @@ public enum UserCRUD {
     public User findOne(String namePass) {
         try {
             User user = split(namePass);
-            for (User u : users) {
+            for (User u : UserDB.INSTANCE.usersContacts.keySet()) {
                 if (u.equals(user)) {
                     user.setContacts(u.getContacts());
                     return user;

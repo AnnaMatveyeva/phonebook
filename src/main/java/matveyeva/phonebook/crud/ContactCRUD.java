@@ -3,17 +3,19 @@ package matveyeva.phonebook.crud;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import matveyeva.phonebook.UserDB;
 import matveyeva.phonebook.Validator;
 import matveyeva.phonebook.entity.Contact;
+import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidContactException;
 
-public class ContactCRUD {
+public enum ContactCRUD {
+    INSTANCE;
 
-    private Set<Contact> contacts;
     private final Validator validator = new Validator();
 
-    public Contact findByNumber(String phone) {
-        for (Contact con : contacts) {
+    public Contact findByNumber(String phone, User user) {
+        for (Contact con : UserDB.INSTANCE.usersContacts.get(user)) {
             if (con.getPhoneNumber().contains(phone)) {
                 return con;
             }
@@ -21,18 +23,11 @@ public class ContactCRUD {
         return null;
     }
 
-    public Set<Contact> getContacts(){
-        return this.contacts;
-    }
-
-    public void setContacts(Set<Contact> contactSet){
-        this.contacts = contactSet;
-    }
-    public Contact update(String newContact, Contact oldContact) {
+    public Contact update(String newContact, Contact oldContact, User user) {
         try {
             Contact upContact = split(newContact);
-            contacts.remove(oldContact);
-            contacts.add(upContact);
+            UserDB.INSTANCE.usersContacts.get(user).remove(oldContact);
+            UserDB.INSTANCE.usersContacts.get(user).add(upContact);
             return upContact;
         } catch (InvalidContactException ex) {
             System.out.println(ex.getMessage());
@@ -40,10 +35,10 @@ public class ContactCRUD {
         }
     }
 
-    public Contact create(String str) {
+    public Contact create(String str, User user) {
         try {
             Contact contact = split(str);
-            contacts.add(contact);
+            UserDB.INSTANCE.usersContacts.get(user).add(contact);
             return contact;
         } catch (InvalidContactException ex) {
             System.out.println(ex.getMessage());
@@ -54,17 +49,17 @@ public class ContactCRUD {
         }
     }
 
-    public void delete(Contact contact) {
-        contacts.remove(contact);
+    public void delete(Contact contact, User user) {
+        UserDB.INSTANCE.usersContacts.get(user).remove(contact);
     }
 
-    public Set<Contact> readAll() {
-        return contacts;
+    public Set<Contact> readAll(User user) {
+        return UserDB.INSTANCE.usersContacts.get(user);
     }
 
-    public void deleteAll() {
-        List<Contact> arr = new ArrayList<Contact>(contacts);
-        contacts.removeAll(arr);
+    public void deleteAll(User user) {
+        List<Contact> arr = new ArrayList<Contact>(UserDB.INSTANCE.usersContacts.get(user));
+        UserDB.INSTANCE.usersContacts.get(user).removeAll(arr);
     }
 
     private Contact split(String str) throws InvalidContactException {

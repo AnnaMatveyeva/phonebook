@@ -8,24 +8,13 @@ import matveyeva.phonebook.menu.AdminMenu;
 import matveyeva.phonebook.menu.MainMenu;
 import org.apache.log4j.Logger;
 
-public class AuthorizationService {
+public enum AuthorizationService {
+    INSTANCE;
 
     private static AuthorizationService instance;
     private static final Logger logger = Logger.getLogger(AuthorizationService.class);
-    private UserCRUD crud;
-    private Scanner scanner;
-
-    private AuthorizationService(UserCRUD crud, Scanner scanner){
-        this.crud = crud;
-        this.scanner = scanner;
-    }
-
-    public static AuthorizationService getInstance(UserCRUD crud, Scanner scanner){
-        if (instance == null) {
-            instance = new AuthorizationService(crud, scanner);
-            return instance;
-        }else return instance;
-    }
+    private UserCRUD crud = UserCRUD.INSTANCE;
+    private static final Scanner scanner = new Scanner(System.in);
 
     public void logoff() {
         try {
