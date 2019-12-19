@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ContactCRUD {
+
     private Set<Contact> allContacts;
     private Set<Contact> userContacts;
     private User user;
@@ -31,8 +32,8 @@ public class ContactCRUD {
     }
 
     public Contact findByNumber(String phone) {
-        for(Contact con : userContacts) {
-            if(con.getPhoneNumber().contains(phone)) {
+        for (Contact con : userContacts) {
+            if (con.getPhoneNumber().contains(phone)) {
                 return con;
             }
         }
@@ -96,8 +97,8 @@ public class ContactCRUD {
             allContacts = (Set<Contact>) objectInputStream.readObject();
         }
 
-        for(Contact con : allContacts) {
-            if(con.getUser().equals(this.user)) {
+        for (Contact con : allContacts) {
+            if (con.getUser().equals(this.user)) {
                 userContacts.add(con);
             }
         }
@@ -106,7 +107,7 @@ public class ContactCRUD {
 
     public void reloadContacts() throws IOException {
 //        FileOutputStream outputStream = new FileOutputStream("contacts.ser");
-        try(FileOutputStream outputStream = new FileOutputStream("contacts.ser")) {
+        try (FileOutputStream outputStream = new FileOutputStream("contacts.ser")) {
             allContacts.addAll(userContacts);
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(allContacts);
@@ -126,16 +127,23 @@ public class ContactCRUD {
 
         String[] cont = str.split(",");
         Contact contact;
-        if(cont.length == 3) {
+        if (cont.length == 3) {
             contact = new Contact(cont[0], cont[1], cont[2], this.user);
-            if(!validator.checkPersonData(contact.getFirstName())) {
-                throw new InvalidContactException("Incorrect first name.First name should has from 3 to 15 characters and contains only letters and numerals");
-            } else if(!validator.checkPersonData(contact.getLastName())) {
-                throw new InvalidContactException("Incorrect last name.Last name should has from 3 to 15 characters and contains only letters and numerals");
-            } else if(!validator.checkPhone(contact.getPhoneNumber())) {
-                throw new InvalidContactException("Incorrect phone number. Phone number should starts with +375 and has 12 numerals");
-            } else return contact;
-        } else throw new InvalidContactException("Incorrect contact data.Try again");
+            if (!validator.checkPersonData(contact.getFirstName())) {
+                throw new InvalidContactException(
+                    "Incorrect first name.First name should has from 3 to 15 characters and contains only letters and numerals");
+            } else if (!validator.checkPersonData(contact.getLastName())) {
+                throw new InvalidContactException(
+                    "Incorrect last name.Last name should has from 3 to 15 characters and contains only letters and numerals");
+            } else if (!validator.checkPhone(contact.getPhoneNumber())) {
+                throw new InvalidContactException(
+                    "Incorrect phone number. Phone number should starts with +375 and has 12 numerals");
+            } else {
+                return contact;
+            }
+        } else {
+            throw new InvalidContactException("Incorrect contact data.Try again");
+        }
     }
 }
 

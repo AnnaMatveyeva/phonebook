@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 
 public class AdminMenu implements Menu {
+
     private Scanner scanner = new Scanner(System.in);
     private UserCRUD crud;
     private static final Logger logger = Logger.getLogger(AdminMenu.class);
@@ -21,7 +22,8 @@ public class AdminMenu implements Menu {
     public void showMenu() {
         boolean check = false;
         while (!check) {
-            System.out.println("show user| add user | update user | delete user | show all | delete all | logoff | exit");
+            System.out.println(
+                "show user| add user | update user | delete user | show all | delete all | logoff | exit");
             switch (scanner.nextInt()) {
                 case 1:
                     readOne();
@@ -73,10 +75,10 @@ public class AdminMenu implements Menu {
 
     private void createUser() {
         System.out.println("Enter username,password");
-        if(scanner.hasNext()) {
+        if (scanner.hasNext()) {
             String str = scanner.next();
             User user;
-            if((user = crud.createUser(str)) != null) {
+            if ((user = crud.createUser(str)) != null) {
                 logger.info("Admin created new user" + user.getUserName());
                 System.out.println("Created: " + user.getUserName());
             }
@@ -87,20 +89,23 @@ public class AdminMenu implements Menu {
 
     private void readOne() {
         System.out.println("Enter username");
-        if(scanner.hasNext()) {
+        if (scanner.hasNext()) {
             String username = scanner.next();
             User user;
 
-            if((user = crud.findByName(username)) != null) {
+            if ((user = crud.findByName(username)) != null) {
                 logger.info("Admin read user " + user.getUserName());
-                System.out.println("Username: " + user.getUserName() + ", password: " + user.getPassword());
-            } else System.out.printf("user not found\n");
+                System.out.println(
+                    "Username: " + user.getUserName() + ", password: " + user.getPassword());
+            } else {
+                System.out.printf("user not found\n");
+            }
         }
         showMenu();
     }
 
     private void deleteAll() {
-        if(!crud.findAll().isEmpty()) {
+        if (!crud.findAll().isEmpty()) {
             System.out.println("Do you want to delete all users? \nYes | No");
             switch (Integer.parseInt(scanner.next())) {
                 case 1:
@@ -115,7 +120,9 @@ public class AdminMenu implements Menu {
                 case 2:
                     break;
             }
-        } else System.out.println("Nothing to delete");
+        } else {
+            System.out.println("Nothing to delete");
+        }
         showMenu();
     }
 
@@ -130,12 +137,12 @@ public class AdminMenu implements Menu {
     }
 
     private void readAll() {
-        if(crud.findAll().isEmpty()) {
+        if (crud.findAll().isEmpty()) {
             System.out.println("Nothing to show");
         } else {
             logger.info("Admin read all users");
             System.out.println("All users: ");
-            for(User user : crud.findAll()) {
+            for (User user : crud.findAll()) {
                 System.out.println(user.getUserName());
             }
         }
@@ -147,7 +154,7 @@ public class AdminMenu implements Menu {
         String username = scanner.next();
         User user;
 
-        if((user = crud.findByName(username)) != null) {
+        if ((user = crud.findByName(username)) != null) {
             System.out.println("Do you want to delete " + user.getUserName() + "\nYes | No");
             String answer = scanner.next();
             switch (Integer.parseInt(answer)) {
@@ -163,8 +170,9 @@ public class AdminMenu implements Menu {
                 case 2:
                     break;
             }
-        } else
+        } else {
             System.out.println("User not found\n");
+        }
 
         showMenu();
     }
@@ -174,15 +182,16 @@ public class AdminMenu implements Menu {
 
         String username = scanner.next();
         User user;
-        if((user = crud.findByName(username)) != null) {
+        if ((user = crud.findByName(username)) != null) {
             System.out.println("Enter username,password");
             String newContact = scanner.next();
-            if((user = crud.update(newContact, user)) != null) {
+            if ((user = crud.update(newContact, user)) != null) {
                 logger.info("Admin updated " + user.getUserName());
                 System.out.println("Updated: " + user.getUserName());
             }
-        } else
+        } else {
             System.out.println("User not found\n");
+        }
 
         showMenu();
     }

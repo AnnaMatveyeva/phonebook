@@ -63,13 +63,18 @@ public class Contact implements Serializable {
     }
 
     public String toString() {
-        return this.firstName + " " + this.lastName + " " + this.phoneNumber + " " + this.creationDate;
+        return this.firstName + " " + this.lastName + " " + this.phoneNumber + " "
+            + this.creationDate;
     }
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Contact contact = (Contact) o;
         return Objects.equals(phoneNumber, contact.phoneNumber);
     }
@@ -80,9 +85,13 @@ public class Contact implements Serializable {
     }
 
     public boolean isTheSame(Contact contact) {
-        if(this.getFirstName().equals(contact.getFirstName()) && this.getLastName().equals(contact.getLastName()) && this.getPhoneNumber().equals(contact.getPhoneNumber())) {
+        if (this.getFirstName().equals(contact.getFirstName()) && this.getLastName()
+            .equals(contact.getLastName()) && this.getPhoneNumber()
+            .equals(contact.getPhoneNumber())) {
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
 }

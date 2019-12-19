@@ -54,12 +54,12 @@ public class LoginMenu implements Menu {
         System.out.println("Enter username,password");
         User user;
         String namePass = scanner.next();
-        if(namePass.equals("admin,admin")) {
+        if (namePass.equals("admin,admin")) {
             logger.info("Admin logged in");
             AdminMenu adminMenu = new AdminMenu();
 
             adminMenu.showMenu();
-        } else if((user = userCRUD.findOne(namePass)) != null) {
+        } else if ((user = userCRUD.findOne(namePass)) != null) {
             logger.info("User " + user.getUserName() + " logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
@@ -72,11 +72,13 @@ public class LoginMenu implements Menu {
     private void registration() {
         System.out.println("Create new  username,password");
         User user;
-        if((user = userCRUD.createUser(scanner.next())) != null) {
+        if ((user = userCRUD.createUser(scanner.next())) != null) {
             logger.info("User " + user.getUserName() + " created and logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
-        } else showMenu();
+        } else {
+            showMenu();
+        }
 //        else{
 //            System.out.println("User exist / username and password are not valid");
 //            start();

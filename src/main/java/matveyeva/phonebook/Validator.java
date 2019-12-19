@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validator {
+
     private final Pattern patternForNames = Pattern.compile("^[a-zA-Z0-9-]{3,15}$");
     private final Pattern patternForPhone = Pattern.compile("\\+375\\d{9}");
 
