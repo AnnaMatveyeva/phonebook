@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class LoginMenu implements Menu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final UserCRUD userCRUD = new UserCRUD();
+    private final UserCRUD userCRUD = UserCRUD.INSTTANCE;
     private static final Logger logger = Logger.getLogger(LoginMenu.class);
 
     public LoginMenu() {
@@ -79,9 +79,5 @@ public class LoginMenu implements Menu {
         } else {
             showMenu();
         }
-//        else{
-//            System.out.println("User exist / username and password are not valid");
-//            start();
-//        }
     }
 }

@@ -1,10 +1,5 @@
 package matveyeva.phonebook.crud;
 
-import matveyeva.phonebook.Validator;
-import matveyeva.phonebook.entity.User;
-import matveyeva.phonebook.exception.InvalidUserException;
-import org.apache.log4j.Logger;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,16 +9,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import matveyeva.phonebook.Validator;
+import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.exception.InvalidUserException;
+import org.apache.log4j.Logger;
 
-public class UserCRUD {
+public enum UserCRUD {
+    INSTTANCE;
 
-    private static Set<User> users = new HashSet<User>();
+    private Set<User> users;
     private static final Logger logger = Logger.getLogger(UserCRUD.class);
-    private ContactCRUD contactCRUD;
     private final Validator validator = new Validator();
 
-    public UserCRUD() {
-
+    UserCRUD() {
         try {
             loadUsers();
         } catch (Exception e) {
@@ -31,12 +29,20 @@ public class UserCRUD {
         }
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
     public User createUser(String str) {
         try {
             User user = split(str);
-            users.add(user);
-            logger.info("New user " + user.getUserName() + " created");
-            return user;
+            user.setContacts(new HashSet<>());
+            if (users.add(user)) {
+                logger.info("New user " + user.getUserName() + " created");
+                return user;
+            } else {
+                throw new InvalidUserException("User exists");
+            }
         } catch (InvalidUserException ex) {
             System.out.println(ex.getMessage());
             return null;
@@ -45,37 +51,13 @@ public class UserCRUD {
             return null;
         }
 
-//        if(user != null && user.isUserValid()){
-//            try {
-//                if(users.add(user)){
-//                    logger.info("New user " + user.getUserName() + " created");
-//
-//                    return user;
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return null;
     }
 
     public void delete(User user) throws IOException {
-        contactCRUD = new ContactCRUD(user);
-        contactCRUD.deleteAll();
-        try {
-            contactCRUD.reloadContacts();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         users.remove(user);
     }
 
     public void deleteAll() throws IOException {
-        for (User user : users) {
-            contactCRUD = new ContactCRUD(user);
-            contactCRUD.deleteAll();
-        }
-        contactCRUD.reloadContacts();
         List<User> arr = new ArrayList<User>(users);
         users.removeAll(arr);
     }
@@ -83,8 +65,10 @@ public class UserCRUD {
     public User update(String newUser, User oldUser) {
         try {
             User user = split(newUser);
+            user.setContacts(oldUser.getContacts());
             users.remove(oldUser);
             users.add(user);
+
             return user;
         } catch (InvalidUserException ex) {
             System.out.println(ex.getMessage());
@@ -105,8 +89,7 @@ public class UserCRUD {
         return null;
     }
 
-    private void loadUsers() throws Exception {
-//        FileInputStream fileInputStream = new FileInputStream("users.ser");
+    public void loadUsers() throws Exception {
         try (FileInputStream fileInputStream = new FileInputStream("users.ser")) {
             while (fileInputStream.available() > 0) {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -117,13 +100,10 @@ public class UserCRUD {
     }
 
     public void reloadUsers() throws IOException {
-//        FileOutputStream outputStream = new FileOutputStream("users.ser");
         try (FileOutputStream outputStream = new FileOutputStream("users.ser")) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(users);
         }
-
-
     }
 
     private User split(String str) throws InvalidUserException {
@@ -144,15 +124,16 @@ public class UserCRUD {
         }
     }
 
-
     public User findOne(String namePass) {
         try {
             User user = split(namePass);
-            if (users.contains(user)) {
-                return user;
-            } else {
-                throw new InvalidUserException("User not exists");
+            for (User u : users) {
+                if (u.equals(user)) {
+                    user.setContacts(u.getContacts());
+                    return user;
+                }
             }
+            throw new InvalidUserException("User not exists");
         } catch (InvalidUserException ex) {
             System.out.println(ex.getMessage());
             return null;

@@ -20,8 +20,8 @@ public class MainMenu implements Menu {
     public MainMenu(User user) {
         logger.info("MainMenu opened");
         this.user = user;
-        concrud = new ContactCRUD(user);
-        userCRUD = new UserCRUD();
+        concrud = new ContactCRUD(user.getContacts());
+        userCRUD = UserCRUD.INSTTANCE;
     }
 
 
@@ -70,7 +70,6 @@ public class MainMenu implements Menu {
     private void logoff() {
         try {
             logger.info("User " + user.getUserName() + " logged off");
-            concrud.reloadContacts();
             userCRUD.reloadUsers();
 
         } catch (IOException e) {
@@ -83,14 +82,11 @@ public class MainMenu implements Menu {
     private void deleteAll() {
         if (!concrud.readAll().isEmpty()) {
             System.out.println("Do you want to delete all contacts? \nYes | No");
-            switch (Integer.parseInt(scanner.next())) {
-                case 1:
-                    concrud.deleteAll();
-                    logger.info("All " + user.getUserName() + "s contacts deleted");
-                    System.out.println("All contacts deleted");
-                    break;
-                case 2:
-                    break;
+            String answer = scanner.next();
+            if (answer.equals("1")) {
+                concrud.deleteAll();
+                logger.info("All " + user.getUserName() + "s contacts deleted");
+                System.out.println("All contacts deleted");
             }
         } else {
             System.out.println("Nothing to delete");
@@ -106,19 +102,13 @@ public class MainMenu implements Menu {
         if ((contact = concrud.findByNumber(phone)) != null) {
             System.out.println("Do you want to delete " + contact.toString() + "\nYes | No");
             String answer = scanner.next();
-            switch (Integer.parseInt(answer)) {
-                case 1:
-                    concrud.delete(contact);
-                    logger.info(user.getUserName() + "s contact " + contact + " deleted");
-                    System.out.println("Contact deleted");
-                    break;
-                case 2:
-                    break;
+
+            if (answer.equals("1")) {
+                concrud.delete(contact);
+                logger.info(user.getUserName() + "s contact " + contact + " deleted");
+                System.out.println("Contact deleted");
             }
         }
-//        else
-//            System.out.println("Contact not found\n");
-
         showMenu();
     }
 
@@ -126,7 +116,6 @@ public class MainMenu implements Menu {
         System.out.println("Exit");
         logger.info("User " + user.getUserName() + " closed the application");
         try {
-            concrud.reloadContacts();
             userCRUD.reloadUsers();
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,7 +131,6 @@ public class MainMenu implements Menu {
                 logger.info("User " + user.getUserName() + " created new contact");
                 System.out.println("Created: " + con);
             }
-//            else System.out.println("Contact exists or contact is not valid");
         }
         showMenu();
     }
@@ -172,10 +160,7 @@ public class MainMenu implements Menu {
                 logger.info("User " + user.getUserName() + " updated contact " + contact);
                 System.out.println("Updated: " + contact);
             }
-//            else System.out.println("Contact is not valid");
         }
-//        else System.out.println("Contact not found\n");
-
         showMenu();
     }
 
@@ -189,10 +174,8 @@ public class MainMenu implements Menu {
                 logger.info("User " + user.getUserName() + " read contact " + contact);
                 System.out.println(contact);
             }
-//            else System.out.printf("Contact not found\n");
         }
         showMenu();
     }
-
 
 }
