@@ -12,13 +12,11 @@ public class Contact implements Serializable {
     private String lastName;
     private String phoneNumber;
     private LocalDate creationDate;
-    private User user;
 
-    public Contact(String firstName, String lastName, String phoneNumber, User user) {
+    public Contact(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.user = user;
         this.creationDate = LocalDate.now();
     }
 
@@ -54,13 +52,6 @@ public class Contact implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String toString() {
         return this.firstName + " " + this.lastName + " " + this.phoneNumber + " "

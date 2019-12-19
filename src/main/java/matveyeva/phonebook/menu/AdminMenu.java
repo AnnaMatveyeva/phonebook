@@ -1,21 +1,19 @@
 package matveyeva.phonebook.menu;
 
+import java.io.IOException;
+import java.util.Scanner;
 import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.util.Scanner;
 
 
 public class AdminMenu implements Menu {
 
     private Scanner scanner = new Scanner(System.in);
-    private UserCRUD crud;
+    private final UserCRUD crud = UserCRUD.INSTTANCE;
     private static final Logger logger = Logger.getLogger(AdminMenu.class);
 
     public AdminMenu() {
-        crud = new UserCRUD();
         logger.info("AdminMenu opened");
     }
 
@@ -82,7 +80,6 @@ public class AdminMenu implements Menu {
                 logger.info("Admin created new user" + user.getUserName());
                 System.out.println("Created: " + user.getUserName());
             }
-//            else System.out.println("user exists or user is not valid");
         }
         showMenu();
     }
@@ -107,18 +104,16 @@ public class AdminMenu implements Menu {
     private void deleteAll() {
         if (!crud.findAll().isEmpty()) {
             System.out.println("Do you want to delete all users? \nYes | No");
-            switch (Integer.parseInt(scanner.next())) {
-                case 1:
-                    try {
-                        crud.deleteAll();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    logger.info("Admin deleted all users");
-                    System.out.println("All users deleted");
-                    break;
-                case 2:
-                    break;
+
+            String answer = scanner.next();
+            if (answer.equalsIgnoreCase("1")) {
+                try {
+                    crud.deleteAll();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                logger.info("Admin deleted all users");
+                System.out.println("All users deleted");
             }
         } else {
             System.out.println("Nothing to delete");
@@ -157,23 +152,19 @@ public class AdminMenu implements Menu {
         if ((user = crud.findByName(username)) != null) {
             System.out.println("Do you want to delete " + user.getUserName() + "\nYes | No");
             String answer = scanner.next();
-            switch (Integer.parseInt(answer)) {
-                case 1:
-                    try {
-                        crud.delete(user);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    logger.info("Admin deleted user " + user.getUserName());
-                    System.out.println("User deleted");
-                    break;
-                case 2:
-                    break;
+
+            if (answer.equalsIgnoreCase("1")) {
+                try {
+                    crud.delete(user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                logger.info("Admin deleted user " + user.getUserName());
+                System.out.println("User deleted");
             }
         } else {
             System.out.println("User not found\n");
         }
-
         showMenu();
     }
 
@@ -192,7 +183,6 @@ public class AdminMenu implements Menu {
         } else {
             System.out.println("User not found\n");
         }
-
         showMenu();
     }
 

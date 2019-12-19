@@ -1,17 +1,28 @@
 package matveyeva.phonebook.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String userName;
     private String password;
+    private Set<Contact> contacts;
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public String getUserName() {
