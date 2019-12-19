@@ -4,6 +4,8 @@ import matveyeva.phonebook.crud.ContactCRUD;
 import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.Contact;
 import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.service.ContactService;
+import matveyeva.phonebook.service.UserService;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -17,13 +19,15 @@ public class MainMenu implements Menu {
     private User user;
     private static final Logger logger = Logger.getLogger(MainMenu.class);
 
+    private ContactService contactService = ContactService.getInstance(userCRUD, concrud,scanner);
+
     public MainMenu(User user) {
         logger.info("MainMenu opened");
         this.user = user;
-        concrud = new ContactCRUD(user.getContacts());
-        userCRUD = UserCRUD.INSTTANCE;
+        concrud = new ContactCRUD();
+        concrud.setContacts(user.getContacts());
+        userCRUD = UserCRUD.INSTANCE;
     }
-
 
     public void showMenu() {
         boolean check = false;
@@ -117,6 +121,7 @@ public class MainMenu implements Menu {
         logger.info("User " + user.getUserName() + " closed the application");
         try {
             userCRUD.reloadUsers();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

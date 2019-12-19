@@ -12,10 +12,6 @@ public class ContactCRUD {
     private Set<Contact> contacts;
     private final Validator validator = new Validator();
 
-    public ContactCRUD(Set<Contact> contactSet) {
-        this.contacts = contactSet;
-    }
-
     public Contact findByNumber(String phone) {
         for (Contact con : contacts) {
             if (con.getPhoneNumber().contains(phone)) {
@@ -25,6 +21,13 @@ public class ContactCRUD {
         return null;
     }
 
+    public Set<Contact> getContacts(){
+        return this.contacts;
+    }
+
+    public void setContacts(Set<Contact> contactSet){
+        this.contacts = contactSet;
+    }
     public Contact update(String newContact, Contact oldContact) {
         try {
             Contact upContact = split(newContact);
