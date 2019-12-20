@@ -1,10 +1,12 @@
 package matveyeva.phonebook.service;
 
-import java.io.IOException;
-import java.util.Scanner;
 import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.exception.InvalidUserException;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Scanner;
 
 public enum UserService {
     INSTANCE;
@@ -13,41 +15,44 @@ public enum UserService {
     private static final Logger logger = Logger.getLogger(UserService.class);
 
 
-
     public void createUser() {
         System.out.println("Enter username,password");
-        if (scanner.hasNext()) {
-            String str = scanner.next();
-            User user;
-            if ((user = crud.createUser(str)) != null) {
+        try {
+            if(scanner.hasNext()) {
+                String str = scanner.next();
+                User user;
+                user = crud.createUser(str);
                 logger.info("Admin created new user" + user.getUserName());
                 System.out.println("Created: " + user.getUserName());
             }
+        } catch (InvalidUserException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
     public void readOne() {
         System.out.println("Enter username");
-        if (scanner.hasNext()) {
-            String username = scanner.next();
-            User user;
+        try {
+            if(scanner.hasNext()) {
+                String username = scanner.next();
+                User user;
+                user = crud.findByName(username);
 
-            if ((user = crud.findByName(username)) != null) {
                 logger.info("Admin read user " + user.getUserName());
                 System.out.println(
-                    "Username: " + user.getUserName() + ", password: " + user.getPassword());
-            } else {
-                System.out.printf("user not found\n");
+                        "Username: " + user.getUserName() + ", password: " + user.getPassword());
             }
+        }catch (InvalidUserException ex){
+            System.out.println(ex.getMessage());
         }
     }
 
     public void deleteAll() {
-        if (!crud.findAll().isEmpty()) {
+        if(!crud.findAll().isEmpty()) {
             System.out.println("Do you want to delete all users? \nYes | No");
 
             String answer = scanner.next();
-            if (answer.equalsIgnoreCase("1")) {
+            if(answer.equalsIgnoreCase("1")) {
                 try {
                     crud.deleteAll();
                 } catch (IOException e) {
@@ -62,12 +67,12 @@ public enum UserService {
     }
 
     public void readAll() {
-        if (crud.findAll().isEmpty()) {
+        if(crud.findAll().isEmpty()) {
             System.out.println("Nothing to show");
         } else {
             logger.info("Admin read all users");
             System.out.println("All users: ");
-            for (User user : crud.findAll()) {
+            for(User user : crud.findAll()) {
                 System.out.println(user.getUserName());
             }
         }
@@ -77,12 +82,12 @@ public enum UserService {
         System.out.println("Enter username");
         String username = scanner.next();
         User user;
-
-        if ((user = crud.findByName(username)) != null) {
+        try {
+            user = crud.findByName(username);
             System.out.println("Do you want to delete " + user.getUserName() + "\nYes | No");
             String answer = scanner.next();
 
-            if (answer.equalsIgnoreCase("1")) {
+            if(answer.equalsIgnoreCase("1")) {
                 try {
                     crud.delete(user);
                 } catch (IOException e) {
@@ -91,25 +96,24 @@ public enum UserService {
                 logger.info("Admin deleted user " + user.getUserName());
                 System.out.println("User deleted");
             }
-        } else {
-            System.out.println("User not found\n");
+        } catch (InvalidUserException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
     public void update() {
         System.out.println("Enter username");
-
-        String username = scanner.next();
-        User user;
-        if ((user = crud.findByName(username)) != null) {
+        try {
+            String username = scanner.next();
+            User user;
+            user = crud.findByName(username);
             System.out.println("Enter username,password");
             String newContact = scanner.next();
-            if ((user = crud.update(newContact, user)) != null) {
-                logger.info("Admin updated " + user.getUserName());
-                System.out.println("Updated: " + user.getUserName());
-            }
-        } else {
-            System.out.println("User not found\n");
+            user = crud.update(newContact, user);
+            logger.info("Admin updated " + user.getUserName());
+            System.out.println("Updated: " + user.getUserName());
+        } catch (InvalidUserException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

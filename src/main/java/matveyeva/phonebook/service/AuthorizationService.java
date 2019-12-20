@@ -1,12 +1,14 @@
 package matveyeva.phonebook.service;
 
-import java.io.IOException;
-import java.util.Scanner;
 import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
+import matveyeva.phonebook.exception.InvalidUserException;
 import matveyeva.phonebook.menu.AdminMenu;
 import matveyeva.phonebook.menu.MainMenu;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Scanner;
 
 public enum AuthorizationService {
     INSTANCE;
@@ -41,15 +43,20 @@ public enum AuthorizationService {
         System.out.println("Enter username,password");
         User user;
         String namePass = scanner.next();
-        if (namePass.equals("admin,admin")) {
+        if(namePass.equals("admin,admin")) {
             logger.info("Admin logged in");
             AdminMenu adminMenu = new AdminMenu();
 
             adminMenu.showMenu();
-        } else if ((user = crud.findOne(namePass)) != null) {
-            logger.info("User " + user.getUserName() + " logged in");
-            MainMenu mainMenu = new MainMenu(user);
-            mainMenu.showMenu();
+        } else {
+            try {
+                user = crud.findOne(namePass);
+                logger.info("User " + user.getUserName() + " logged in");
+                MainMenu mainMenu = new MainMenu(user);
+                mainMenu.showMenu();
+            } catch (InvalidUserException ex) {
+                System.out.println(ex.getMessage());
+            }
         }
 
     }
@@ -57,10 +64,13 @@ public enum AuthorizationService {
     public void registration() {
         System.out.println("Create new  username,password");
         User user;
-        if ((user = crud.createUser(scanner.next())) != null) {
+        try {
+            user = crud.createUser(scanner.next());
             logger.info("User " + user.getUserName() + " created and logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
+        }catch (InvalidUserException ex){
+            System.out.println(ex.getMessage());
         }
     }
 
