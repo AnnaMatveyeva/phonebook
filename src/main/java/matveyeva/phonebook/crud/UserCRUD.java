@@ -1,14 +1,13 @@
 package matveyeva.phonebook.crud;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import matveyeva.phonebook.UserDB;
 import matveyeva.phonebook.Validator;
 import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidUserException;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 public enum UserCRUD {
     INSTANCE;
@@ -21,10 +20,12 @@ public enum UserCRUD {
         user.setContacts(new HashSet<>());
         int size = UserDB.INSTANCE.usersContacts.size();
         UserDB.INSTANCE.usersContacts.put(user, user.getContacts());
-        if(size < UserDB.INSTANCE.usersContacts.size()) {
+        if (size < UserDB.INSTANCE.usersContacts.size()) {
             logger.info("New user " + user.getUserName() + " created");
             return user;
-        } else throw new InvalidUserException("User exists");
+        } else {
+            throw new InvalidUserException("User exists");
+        }
     }
 
     public void delete(User user) throws IOException {
@@ -39,11 +40,13 @@ public enum UserCRUD {
         User user = split(newUser);
         user.setContacts(oldUser.getContacts());
 
-        if(!UserDB.INSTANCE.usersContacts.containsKey(user)){
+        if (!UserDB.INSTANCE.usersContacts.containsKey(user)) {
             UserDB.INSTANCE.usersContacts.remove(oldUser);
             UserDB.INSTANCE.usersContacts.put(user, user.getContacts());
             return user;
-        }else throw new InvalidUserException("User exists");
+        } else {
+            throw new InvalidUserException("User exists");
+        }
 
     }
 
@@ -52,8 +55,8 @@ public enum UserCRUD {
     }
 
     public User findByName(String username) throws InvalidUserException {
-        for(User user : UserDB.INSTANCE.usersContacts.keySet()) {
-            if(user.getUserName().contains(username)) {
+        for (User user : UserDB.INSTANCE.usersContacts.keySet()) {
+            if (user.getUserName().contains(username)) {
                 return user;
             }
         }
@@ -66,14 +69,14 @@ public enum UserCRUD {
 
     private User split(String str) throws InvalidUserException {
         String[] userstr = str.split(",");
-        if(userstr.length == 2) {
+        if (userstr.length == 2) {
             User user = new User(userstr[0], userstr[1]);
-            if(!validator.checkPersonData(user.getUserName())) {
+            if (!validator.checkPersonData(user.getUserName())) {
                 throw new InvalidUserException(
-                        "Incorrect user name. Name should has from 3 to 15 characters and contains only letters and numerals");
-            } else if(!validator.checkPersonData(user.getPassword())) {
+                    "Incorrect user name. Name should has from 3 to 15 characters and contains only letters and numerals");
+            } else if (!validator.checkPersonData(user.getPassword())) {
                 throw new InvalidUserException(
-                        "Incorrect user password. Password should has from 3 to 15 characters and contains only letters and numerals");
+                    "Incorrect user password. Password should has from 3 to 15 characters and contains only letters and numerals");
             } else {
                 return user;
             }
@@ -84,8 +87,8 @@ public enum UserCRUD {
 
     public User findOne(String namePass) throws InvalidUserException {
         User user = split(namePass);
-        for(User u : UserDB.INSTANCE.usersContacts.keySet()) {
-            if(u.equals(user)) {
+        for (User u : UserDB.INSTANCE.usersContacts.keySet()) {
+            if (u.equals(user)) {
                 user.setContacts(u.getContacts());
                 return user;
             }

@@ -6,7 +6,7 @@ import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.service.AuthorizationService;
 import org.apache.log4j.Logger;
 
-public class LoginMenu implements Menu{
+public class LoginMenu implements Menu {
 
     private final Scanner scanner = new Scanner(System.in);
     private final UserCRUD userCRUD = UserCRUD.INSTANCE;

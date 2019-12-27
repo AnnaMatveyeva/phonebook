@@ -1,5 +1,7 @@
 package matveyeva.phonebook.service;
 
+import java.io.IOException;
+import java.util.Scanner;
 import matveyeva.phonebook.crud.UserCRUD;
 import matveyeva.phonebook.entity.User;
 import matveyeva.phonebook.exception.InvalidUserException;
@@ -7,13 +9,9 @@ import matveyeva.phonebook.menu.AdminMenu;
 import matveyeva.phonebook.menu.MainMenu;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 public enum AuthorizationService {
     INSTANCE;
 
-    private static AuthorizationService instance;
     private static final Logger logger = Logger.getLogger(AuthorizationService.class);
     private UserCRUD crud = UserCRUD.INSTANCE;
     private static final Scanner scanner = new Scanner(System.in);
@@ -43,7 +41,7 @@ public enum AuthorizationService {
         System.out.println("Enter username,password");
         User user;
         String namePass = scanner.next();
-        if(namePass.equals("admin,admin")) {
+        if (namePass.equals("admin,admin")) {
             logger.info("Admin logged in");
             AdminMenu adminMenu = new AdminMenu();
 
@@ -69,7 +67,7 @@ public enum AuthorizationService {
             logger.info("User " + user.getUserName() + " created and logged in");
             MainMenu mainMenu = new MainMenu(user);
             mainMenu.showMenu();
-        }catch (InvalidUserException ex){
+        } catch (InvalidUserException ex) {
             System.out.println(ex.getMessage());
         }
     }

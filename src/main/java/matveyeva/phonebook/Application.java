@@ -1,7 +1,7 @@
 package matveyeva.phonebook;
 
-import matveyeva.phonebook.menu.LoginMenu;
 import java.util.InputMismatchException;
+import matveyeva.phonebook.menu.LoginMenu;
 
 public class Application {
 

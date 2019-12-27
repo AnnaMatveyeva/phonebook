@@ -1,9 +1,8 @@
 package matveyeva.phonebook;
 
-import matveyeva.phonebook.entity.User;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import matveyeva.phonebook.entity.User;
 
 public class Validator {
 
